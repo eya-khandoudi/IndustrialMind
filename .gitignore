@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# Secrets — NEVER commit
+.env
+
+# Contract artifacts
+artifacts/
+cache/
+contracts/compiled/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -22,6 +22,14 @@ const THRESHOLDS = {
   pressure:  { warn: 1.7, danger: 2.0 },
 };
 
+// Danger spike values — guaranteed to breach DANGER threshold
+const DANGER_SPIKES = {
+  temp:      130, // well above 120°C
+  vibration: 11.5, // well above 10 mm/s
+  gas:       88,  // well above 80 ppm
+  pressure:  2.3, // well above 2.0 bar
+};
+
 let dangerZoneId = null;
 let dangerTimer = null;
 
@@ -58,20 +66,32 @@ export function generateReading(zoneId) {
   const zone = ZONES.find(z => z.id === zoneId);
   const base = BASELINES[zone.type];
   const isDanger = dangerZoneId === zoneId;
-  
-  const multiplier = isDanger ? 1.8 : 1.0;
-  const spikeNoise = isDanger ? 2.5 : 1.0;
 
-  const reading = {
-    zoneId,
-    zoneName: zone.name,
-    timestamp: Date.now(),
-    temp:      clamp(noise(base.temp * multiplier,     3 * spikeNoise), 15,  200),
-    vibration: clamp(noise(base.vibration * multiplier, 0.8 * spikeNoise), 0, 15),
-    gas:       clamp(noise(base.gas * multiplier,       5 * spikeNoise), 0,  100),
-    pressure:  clamp(noise(base.pressure * multiplier,  0.05 * spikeNoise), 0.9, 3.0),
-    isDanger,
-  };
+  let reading;
+  if (isDanger) {
+    // Use guaranteed spike values with small noise — ALWAYS breach danger threshold
+    reading = {
+      zoneId,
+      zoneName: zone.name,
+      timestamp: Date.now(),
+      temp:      clamp(noise(DANGER_SPIKES.temp, 4), 120, 200),
+      vibration: clamp(noise(DANGER_SPIKES.vibration, 0.5), 10, 15),
+      gas:       clamp(noise(DANGER_SPIKES.gas, 4), 80, 100),
+      pressure:  clamp(noise(DANGER_SPIKES.pressure, 0.1), 2.0, 3.0),
+      isDanger: true,
+    };
+  } else {
+    reading = {
+      zoneId,
+      zoneName: zone.name,
+      timestamp: Date.now(),
+      temp:      clamp(noise(base.temp, 3), 15, 94),
+      vibration: clamp(noise(base.vibration, 0.8), 0, 7.4),
+      gas:       clamp(noise(base.gas, 5), 0, 59),
+      pressure:  clamp(noise(base.pressure, 0.05), 0.9, 1.69),
+      isDanger: false,
+    };
+  }
 
   reading.status = getSensorStatus(reading);
   return reading;
