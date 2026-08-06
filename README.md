@@ -2,119 +2,98 @@
 
 **AI-Powered Decentralized Industrial Safety & Compliance Network**
 
-> 🏆 Built for **ChainHack** — Industrial 5.0 Track
+> Built for [ChainHack 2026](https://www.hackquest.io/hackathons/ChainHack) — Industrial 5.0 Track
 
 ![IndustrialMind Dashboard](https://img.shields.io/badge/Track-AI×Web3-00c8ff?style=for-the-badge)
-![AI](https://img.shields.io/badge/AI-Groq%20LLaMA%203-ff5500?style=for-the-badge)
-![Blockchain](https://img.shields.io/badge/Network-Sepolia_Testnet-9d5cff?style=for-the-badge)
-![Frontend](https://img.shields.io/badge/Frontend-React_Vite-00ff88?style=for-the-badge)
+![Blockchain](https://img.shields.io/badge/Chain-Ethereum_Sepolia-9d5cff?style=for-the-badge)
+![AI](https://img.shields.io/badge/AI-Groq_LLaMA_3-fa5a28?style=for-the-badge)
 
 ---
 
-## 🚀 The Problem
-In modern industrial environments (Industrial 4.0), factories generate terabytes of sensor data, yet safety compliance remains reactive. Incidents are often logged *after* they occur, OSHA compliance is a manual paperwork nightmare, and workers are afraid of retaliation when reporting hazards.
+## 🚀 Overview
 
-## 💡 The Solution: Industrial 5.0
-**IndustrialMind** bridges the gap between hardware sensors, Artificial Intelligence, and Blockchain to create a proactive, immutable safety net:
+**IndustrialMind** is a real-time industrial safety platform that combines **Groq AI (LLaMA 3)** anomaly analysis with **Ethereum Sepolia on-chain compliance logging** to protect workers and automate regulatory enforcement in Industrial 5.0 environments.
 
-1. **Proactive AI Analysis:** Live sensor data (Temperature, Gas, Vibration, Pressure) is streamed to our AI Engine (**Groq LLaMA 3**) which analyzes anomalies in milliseconds, predicting root causes and determining OSHA regulatory compliance instantly.
-2. **Immutable Compliance:** Every AI safety alert is automatically hashed and logged on the **Ethereum Sepolia** testnet. Factory management can no longer hide or delete safety violations. 
-3. **ZK-Protected Worker Reports:** Factory workers can connect their MetaMask wallets to submit anonymous safety hazards. Using Zero-Knowledge principles, only the hashed incident data is committed on-chain, protecting the worker's identity while ensuring the report cannot be erased.
+Every anomaly detected by the AI engine is analyzed in milliseconds and **automatically logged on-chain** via `ethers.js` as an immutable, auditable safety record. Workers can also connect their MetaMask wallets to file anonymous hazard reports directly to the blockchain, using a simulated zero-knowledge proof architecture.
 
 ---
 
-## ✨ Core Features
+## ✨ Features
 
 | Feature | Description |
 |---|---|
-| 🤖 **Groq LLaMA 3 Engine** | AI analyzes anomalies instantly, providing Root Cause, Evacuation Status, Worker Risk, and OSHA regulatory references. |
-| ⛓️ **On-Chain Enforcement** | Automated smart contract transactions (`ethers.js`) lock AI incident reports permanently on Sepolia. |
-| 🦊 **Web3 Wallet Integration** | Full MetaMask integration allows workers to sign and submit decentralized safety reports directly from the UI. |
-| 📊 **Real-Time WebSockets** | React dashboard streams live multi-zone sensor charts without polling. |
-| 🎯 **Live Compliance Scoring** | A dynamic ring gauge drops the facility's compliance score in real-time when hazards are detected. |
+| 🤖 **Groq AI Analysis (LLaMA 3)** | Real-time AI evaluation of temperature, vibration, gas & pressure spikes. Automatically determines severity, required protocol, worker risk, and evacuation needs. |
+| ⛓️ **Live On-Chain Logging** | Backend automatically signs and sends transactions to the Ethereum Sepolia testnet whenever AI flags a hazard. |
+| 🦊 **MetaMask Integration** | Users can connect their Web3 wallets natively to sign transactions from the dashboard. |
+| 📊 **Real-Time WebSocket Dashboard** | Live data streaming for all 4 industrial zones simultaneously. |
+| 🔒 **ZK Worker Reports** | Anonymous incident reporting — workers sign transactions directly via MetaMask with simulated ZK-proofs for privacy. |
+| ⚡ **Incident Simulator** | One-click incident trigger for dramatic live demos of the AI-to-Blockchain pipeline. |
 
 ---
 
-## 🛠️ Architecture
+## 🛠️ Tech Stack
 
-```text
-[ IoT Sensors / Simulator ]
-         │ (WebSockets)
-         ▼
-[ Node.js + Express Backend ] ───► [ Groq AI API (LLaMA 3) ]
-         │                               │ (Instant Anomaly Analysis)
-         │                               ▼
-         │                        [ Smart Contract (Sepolia) ]
-         │                               ▲
-         ▼                               │ (Web3 Signature)
-[ React + Vite Dashboard ] ──────────────┘
-  (MetaMask Integration)
-```
-
----
-
-## 💻 Tech Stack
-
-- **Frontend**: React, Vite, Recharts, Ethers.js v6
-- **Backend**: Node.js, Express, WebSockets (ws)
-- **AI / LLM**: Groq API (llama3-8b-8192) for sub-second inference
-- **Blockchain**: Solidity Smart Contracts, deployed on Ethereum Sepolia
-- **Styling**: Vanilla CSS with modern Glassmorphism aesthetics
+- **Frontend**: React + Vite (Glassmorphism design)
+- **Backend**: Node.js + Express + WebSockets
+- **Smart Contracts**: Solidity (Deployed on Ethereum Sepolia Testnet)
+- **Web3 Integration**: `ethers.js` (v6) + MetaMask `window.ethereum`
+- **AI Inference**: Groq API (`llama3-8b-8192`)
+- **Charts**: Recharts (real-time sensor visualization)
 
 ---
 
 ## 📦 Getting Started
 
-### 1. Prerequisites
-- Node.js (v18+)
-- MetaMask Browser Extension
-- API Keys: [Groq](https://console.groq.com/), Etherscan, and a Sepolia Wallet Private Key
-
-### 2. Setup
+### 1. Clone & Install
 ```bash
-# Clone the repo
 git clone https://github.com/eya-khandoudi/IndustrialMind.git
 cd IndustrialMind
-
-# Install dependencies
 npm install
-
-# Setup Environment Variables
-cp .env.example .env
-# Edit .env and add your GROQ_API_KEY, PRIVATE_KEY, and ETHERSCAN_API_KEY
 ```
 
-### 3. Run Locally
-We need to run both the WebSocket backend and the Vite frontend:
+### 2. Environment Variables
+Create a `.env` file in the root directory:
+```env
+GROQ_API_KEY=your_groq_api_key
+PRIVATE_KEY=your_sepolia_wallet_private_key
+ETHERSCAN_API_KEY=your_etherscan_key
+```
+
+### 3. Run the Platform
+You need two terminal windows:
 ```bash
-# Terminal 1: Start the Backend
+# Terminal 1: Start Backend (WebSockets + Blockchain + AI)
 node server/index.js
 
-# Terminal 2: Start the Frontend
+# Terminal 2: Start Frontend
 npm run dev
 ```
 Open **http://localhost:5173** in your browser.
 
 ---
 
-## 🎬 Demo Guide (How to Wow the Judges)
+## 🏗️ Architecture
 
-1. **Dashboard Load**: Point out the live streaming charts updating via WebSockets. Show the 100% compliance score.
-2. **AI Action**: Click **⚡ Trigger Incident**. Watch an anomaly spike on the chart.
-3. **Sub-second AI**: See the AI alert instantly appear on the left. Expand it to show the judge the LLaMA 3 root cause analysis, worker risk, and OSHA regulatory citation.
-4. **Blockchain Proof**: Show the pending blockchain transaction status turn into a confirmed Etherscan link. Click the link to prove it's live on Sepolia.
-5. **Decentralized Reporting**: Click **🔗 Connect Wallet** (MetaMask opens). Then click **🔒 Report Incident**, fill out the anonymous form, and submit. MetaMask will ask you to sign the transaction, proving end-to-end Web3 capability.
-
----
-
-## 🗺️ Roadmap
-
-- [ ] Real IoT sensor integration via MQTT (Siemens/Allen-Bradley PLCs)
-- [ ] ZK-SNARK circuit implementation (Noir/Circom) for mathematically proven anonymity
-- [ ] Smart Contract Insurance Oracles (adjusting factory insurance premiums automatically based on on-chain compliance score)
-- [ ] Mobile PWA for factory floor workers
+```
+[IoT Sensor Simulator]
+        ↓  (WebSockets)
+[Node.js Backend]  <----->  [Groq API (LLaMA 3)]
+        ↓  (ethers.js)
+[Ethereum Sepolia Testnet]
+        ↓  (WS Broadcast)
+[React Frontend + MetaMask]
+```
 
 ---
 
-## 👥 Team
-Built with ❤️ for **ChainHack**.
+## 🗺️ Roadmap (Post-Hackathon)
+
+- [ ] Real IoT sensor integration via MQTT
+- [ ] Deploy smart contracts on Arbitrum Mainnet / Base
+- [ ] Actual ZK circuit implementation (Noir/Circom) for on-chain verification
+- [ ] Mobile app for factory floor workers
+
+---
+
+## 📄 License
+MIT
